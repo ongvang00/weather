@@ -1,18 +1,19 @@
-// Define a type for the data fetched from the API
-type WeatherData = {
+interface MainData {
+  temp: number;
+  temp_max: number;
+  temp_min: number;
+}
+
+interface WeatherData {
   name: string;
-  main: {
-    temp: number;
-    temp_max: number;
-    temp_min: number;
-  };
+  main: MainData;
   weather: {
     description: string;
   }[];
-};
+}
 
 const apiKey: string = "083313940c434e03e5fc6c10373cc537";
-const apiUrl: string = "https://api.openweathermap.org/data/2.5/weather?appid=" + apiKey + "&units=imperial";
+const apiUrl: string = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=imperial`;
 
 // Selecting HTML elements to update
 const city: HTMLElement | null = document.querySelector(".city");
@@ -37,7 +38,7 @@ async function getWeatherData(zipCode: string): Promise<void> {
       hTemp.textContent = `H: ${data.main.temp_max}°F`;
       lTemp.textContent = `L: ${data.main.temp_min}°F`;
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
   }
 }
